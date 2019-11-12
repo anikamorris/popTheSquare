@@ -47,9 +47,11 @@ class GameScene: SKScene {
                     square.removeFromParent()
                     squares.remove(at: squares.index(of: square)!)
                     score -= 1
-                    let gameOver = isGameOver()
-                    if gameOver {
+                    //let gameOver = isGameOver()
+                    if isGameOver() {
                         scoreLabel.text = "Game Over!"
+                        let wait = SKAction.wait(forDuration: 2)
+                        run(wait)
                     } else {
                         scoreLabel.text = "Score: \(score)"
                     }
@@ -84,7 +86,7 @@ class GameScene: SKScene {
     }
     
     func isGameOver() -> Bool {
-        if score > 0 {
+        if score <= 0 {
             scoreLabel.text = "Game Over!"
             return true
         } else {
