@@ -23,7 +23,20 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         // Called when the scene has been displayed
-        resetGame()
+        score = 0
+        scoreLabel.text = "Score: 0"
+        
+        let pause = SKAction.wait(forDuration: 1.5)
+        run(pause)
+        
+        scoreLabel.position = CGPoint(x: view.bounds.width / 2, y: view.bounds.height - 80)
+        addChild(scoreLabel)
+        
+        let spawn = SKAction.run(spawnSquare)
+        let wait = SKAction.wait(forDuration: 1.2)
+        
+        let sequence = SKAction.sequence([spawn, wait])
+        run(SKAction.repeatForever(sequence))
     }
   
     override func update(_ currentTime: TimeInterval) {
@@ -36,9 +49,10 @@ class GameScene: SKScene {
                     score -= 1
                     let gameOver = isGameOver()
                     if gameOver {
-                        resetGame()
+                        scoreLabel.text = "Game Over!"
+                    } else {
+                        scoreLabel.text = "Score: \(score)"
                     }
-//                    scoreLabel.text = "Score: \(score)"
                 }
             }
         }
@@ -98,6 +112,6 @@ class GameScene: SKScene {
         let wait = SKAction.wait(forDuration: 1.2)
         
         let sequence = SKAction.sequence([spawn, wait])
-        run(SKAction.repeat(sequence, count: 10))
+        run(SKAction.repeatForever(sequence))
     }
 }
